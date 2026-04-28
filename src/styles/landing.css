@@ -334,6 +334,14 @@ a {
   align-items: center;
 }
 
+.language-callout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) auto;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
 .site-footer {
   padding: 2.5rem 0 3.5rem;
   color: var(--ccl-muted);
@@ -344,7 +352,8 @@ a {
   .hero,
   .content-grid--three,
   .content-grid--two,
-  .docs-callout {
+  .docs-callout,
+  .language-callout {
     grid-template-columns: 1fr;
   }
 

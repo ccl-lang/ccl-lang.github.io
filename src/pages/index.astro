@@ -1,5 +1,6 @@
 ---
 import InfoCard from '../components/landing/InfoCard.astro';
+import LanguageSupportGrid from '../components/languages/LanguageSupportGrid.astro';
 import LandingLayout from '../layouts/LandingLayout.astro';
 
 const goals = [
@@ -122,6 +123,31 @@ model GetUsersResult {
     Users: UserInfo[];
 }`}</code></pre>
       </aside>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <span class="section-label">Programming Languages</span>
+        <h2 class="section-title">Know the target status before you dive in.</h2>
+        <p class="section-copy">
+          The quickest question many people have is whether their language is already supported.
+          This list shows which generators are usable now, which ones are actively being built,
+          and which ones are still in planning.
+        </p>
+      </div>
+
+      <LanguageSupportGrid />
+
+      <div class="section-card language-callout">
+        <div>
+          <h3>Need details for a specific target?</h3>
+          <p>
+            Open the language pages to see generator status and serialization support for Go,
+            GDScript, C#, Python, JavaScript, TypeScript, C, C++, Rust, and Lua.
+          </p>
+        </div>
+        <a class="button button--primary" href="/docs/languages/">Browse language docs</a>
+      </div>
     </section>
 
     <section class="section">
