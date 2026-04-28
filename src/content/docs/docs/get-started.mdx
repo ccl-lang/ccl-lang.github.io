@@ -1,0 +1,39 @@
+---
+title: Getting Started
+description: Install CCL, generate code once, and understand the basic workflow.
+---
+
+## Install
+
+```bash
+go install github.com/ccl-lang/ccl@latest
+```
+
+## Write a source file
+
+```txt
+#[CCLVersion("1.0.0")]
+#[SerializationType("binary")]
+
+[SerializationType("binary")]
+model UserInfo {
+    Id: int64;
+    Username: string;
+    Email: string;
+}
+```
+
+## Generate code
+
+```bash
+ccl generate --source definitions.ccl --output path/to/output --language Go
+```
+
+## Workflow in one sentence
+
+Write model definitions in `.ccl`, choose the target language, and let the compiler generate the language-specific code.
+
+## What to read next
+
+- Go to [Language Overview](/docs/language-overview/) to understand the syntax and design goals.
+- Go to [CLI Reference](/reference/cli/) when you need the command shape quickly.

@@ -1,0 +1,31 @@
+---
+title: Docs
+description: Start here if you want to understand what CCL is and how to use it.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+CCL is a minimal language for defining shared data models and generating code from them.
+
+This docs section is intentionally short on ceremony:
+
+- Read the getting-started page if you want the fastest path from install to first generated output.
+- Read the language overview if you want to understand the shape of the language before using it.
+- Jump to reference pages when you already know the workflow and just need specifics.
+
+## Choose a path
+
+<CardGrid stagger>
+  <Card title="Getting Started" icon="rocket" href="/docs/get-started/">
+    Install the compiler, run your first generation command, and understand the basic workflow.
+  </Card>
+  <Card title="Language Overview" icon="open-book" href="/docs/language-overview/">
+    Learn the core syntax, what models and attributes look like, and what CCL is designed for.
+  </Card>
+  <Card title="CLI Reference" icon="seti:terminal" href="/reference/cli/">
+    Look up the generator command structure and the main CLI flags.
+  </Card>
+  <Card title="Attributes Reference" icon="list-tree" href="/reference/attributes/">
+    See the attributes shown in examples and what level they apply to.
+  </Card>
+</CardGrid>

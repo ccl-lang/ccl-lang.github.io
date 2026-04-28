@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="CCL">
+  <defs>
+    <linearGradient id="ccl-grad" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f766e" />
+      <stop offset="100%" stop-color="#115e59" />
+    </linearGradient>
+  </defs>
+  <rect width="96" height="96" rx="24" fill="url(#ccl-grad)" />
+  <path d="M28 29h12L28 48l12 19H28L16 48z" fill="#f7f5ef" opacity="0.9" />
+  <path d="M68 29H56l12 19-12 19h12l12-19z" fill="#f7f5ef" opacity="0.9" />
+  <rect x="40" y="24" width="16" height="48" rx="8" fill="#f7f5ef" />
+</svg>

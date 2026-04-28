@@ -1,0 +1,33 @@
+---
+title: Attributes Reference
+description: Attributes shown in the current public examples.
+---
+
+## Global attributes
+
+### `#[CCLVersion("...")]`
+
+Declares the CCL version expected by the file.
+
+### `#[SerializationType("...")]`
+
+Sets a generation-wide serialization mode in the examples shown so far.
+
+## Model attributes
+
+### `[SerializationType("...")]`
+
+Applies serialization behavior to an individual model.
+
+## Example
+
+```txt
+#[CCLVersion("1.0.0")]
+#[SerializationType("binary")]
+
+[SerializationType("binary")]
+[SerializationType("json")]
+model GetUsersResult {
+    Users: UserInfo[];
+}
+```

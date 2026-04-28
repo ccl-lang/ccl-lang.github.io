@@ -1,0 +1,53 @@
+---
+title: Language Overview
+description: What CCL is, what it focuses on, and what its syntax looks like.
+---
+
+## What CCL focuses on
+
+CCL is not trying to be a general-purpose language. Its job is much narrower:
+
+- Define data models in one place.
+- Attach generation or serialization-related attributes explicitly.
+- Generate equivalent code for target languages.
+
+## Main building blocks
+
+### Global attributes
+
+Global attributes affect the whole generation process.
+
+```txt
+#[CCLVersion("1.0.0")]
+#[SerializationType("binary")]
+```
+
+### Models
+
+Models define the data shape.
+
+```txt
+model UserInfo {
+    Id: int64;
+    Username: string;
+    Email: string;
+    CreatedAt: datetime;
+}
+```
+
+### Per-model attributes
+
+Models can also carry attributes.
+
+```txt
+[SerializationType("binary")]
+[SerializationType("json")]
+model GetUsersResult {
+    Users: UserInfo[];
+}
+```
+
+## Current scope
+
+CCL intentionally stays minimal. The current public examples emphasize models and attributes rather
+than a wide type system.

@@ -1,0 +1,20 @@
+:root {
+  --ccl-bg: #f5f2ea;
+  --ccl-surface: rgba(255, 255, 255, 0.82);
+  --ccl-surface-strong: rgba(255, 255, 255, 0.94);
+  --ccl-border: rgba(47, 54, 49, 0.14);
+  --ccl-border-strong: rgba(47, 54, 49, 0.28);
+  --ccl-text: #1f2723;
+  --ccl-muted: #56645d;
+  --ccl-accent: #0f766e;
+  --ccl-accent-strong: #115e59;
+  --ccl-warm: #c46b37;
+  --ccl-shadow: 0 24px 70px rgba(31, 39, 35, 0.12);
+  --ccl-radius-xl: 28px;
+  --ccl-radius-lg: 20px;
+  --ccl-radius-md: 14px;
+  --ccl-content-width: 1180px;
+  --ccl-heading-font: "Aptos Display", "Segoe UI Variable Display", "Trebuchet MS", sans-serif;
+  --ccl-body-font: "Aptos", "Segoe UI Variable Text", "Segoe UI", sans-serif;
+  --ccl-code-font: "Cascadia Code", "Consolas", monospace;
+}

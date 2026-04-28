@@ -1,0 +1,213 @@
+---
+import InfoCard from '../components/landing/InfoCard.astro';
+import LandingLayout from '../layouts/LandingLayout.astro';
+
+const goals = [
+  {
+    title: 'Define shared models once',
+    body: 'Describe the shape of your data a single time, then generate code for multiple runtimes instead of retyping the same model definitions everywhere.',
+  },
+  {
+    title: 'Stay intentionally small',
+    body: 'CCL focuses on model definitions and code generation. It is meant to be easy to scan, easy to review, and hard to overcomplicate.',
+  },
+  {
+    title: 'Keep serialization explicit',
+    body: 'Attributes make serialization choices visible at the language level instead of hiding them in generator-specific side channels.',
+  },
+];
+
+const audiences = [
+  {
+    title: 'Backend and client teams',
+    items: [
+      'Use one source of truth for shared request and response models.',
+      'Avoid schema drift across languages and services.',
+    ],
+  },
+  {
+    title: 'Tooling-minded engineers',
+    items: [
+      'Treat model definitions as architecture, not as scattered boilerplate.',
+      'Keep generated code flowing from versioned source files.',
+    ],
+  },
+  {
+    title: 'People evaluating fast',
+    items: [
+      'Understand what CCL is in a few minutes.',
+      'Decide quickly whether it matches your project before diving into reference docs.',
+    ],
+  },
+];
+---
+
+<LandingLayout
+  title="CCL | Common Code Language"
+  description="Common Code Language helps you define shared data models once and generate code for multiple targets."
+>
+  <header class="site-header">
+    <div class="site-shell site-header__inner">
+      <a class="site-brand" href="/">
+        <span class="site-brand__mark">CCL</span>
+        <span class="site-brand__text">
+          <span class="site-brand__title">Common Code Language</span>
+          <span class="site-brand__tagline">Minimal model definitions for code generation</span>
+        </span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary">
+        <a class="site-nav__link" href="/docs/">Docs</a>
+        <a class="site-nav__link" href="/reference/cli/">Reference</a>
+        <a class="site-nav__link" href="https://github.com/ccl-lang/ccl">GitHub</a>
+        <a class="site-nav__cta" href="/docs/get-started/">Start here</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-shell">
+    <section class="hero">
+      <div class="hero__panel">
+        <span class="eyebrow">Common Code Language</span>
+        <h1>Define shared models once.</h1>
+        <p class="hero__lede">
+          CCL is a small language for describing data models that can be generated into code for
+          multiple programming languages. It is built for teams that want one clear source of truth
+          instead of duplicated structs, classes, and serialization glue.
+        </p>
+
+        <div class="hero__actions">
+          <a class="button button--primary" href="/docs/">Read the docs</a>
+          <a class="button button--secondary" href="https://github.com/ccl-lang/ccl">View the compiler</a>
+        </div>
+
+        <div class="hero__facts">
+          <div class="fact">
+            <strong>What it is</strong>
+            <span>A schema-like language for code generation, not a general-purpose programming language.</span>
+          </div>
+          <div class="fact">
+            <strong>Primary use</strong>
+            <span>Keep shared models consistent across servers, clients, and generated libraries.</span>
+          </div>
+          <div class="fact">
+            <strong>Design bias</strong>
+            <span>Minimal syntax, explicit attributes, and codegen-oriented workflows.</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero__code" aria-label="A simple CCL example">
+        <div class="hero__code-header">
+          <span class="hero__code-dot"></span>
+          <span class="hero__code-dot"></span>
+          <span class="hero__code-dot hero__code-dot--accent"></span>
+          <span>simple-models.ccl</span>
+        </div>
+        <pre><code>{`#[CCLVersion("1.0.0")]
+#[SerializationType("binary")]
+
+[SerializationType("binary")]
+model UserInfo {
+    Id: int64;
+    Username: string;
+    Email: string;
+    ProfileImage: bytes;
+    CreatedAt: datetime;
+}
+
+[SerializationType("binary")]
+[SerializationType("json")]
+model GetUsersResult {
+    Users: UserInfo[];
+}`}</code></pre>
+      </aside>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <span class="section-label">Why CCL Exists</span>
+        <h2 class="section-title">The language is small on purpose.</h2>
+        <p class="section-copy">
+          CCL is for situations where the data contract matters more than language-specific syntax.
+          If your project shares models across multiple targets, the goal is to describe those
+          models once and let generators produce the repetitive parts.
+        </p>
+      </div>
+
+      <div class="content-grid content-grid--three">
+        {goals.map((goal) => (
+          <InfoCard title={goal.title}>
+            <p>{goal.body}</p>
+          </InfoCard>
+        ))}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <span class="section-label">Who It Is For</span>
+        <h2 class="section-title">A fit for teams that value consistency over ceremony.</h2>
+        <p class="section-copy">
+          The best use case is shared model definitions that need to stay aligned across different
+          languages or runtimes. If that is not your problem, you can usually tell quickly and move
+          on without getting lost in the docs.
+        </p>
+      </div>
+
+      <div class="content-grid content-grid--three">
+        {audiences.map((audience) => (
+          <InfoCard title={audience.title}>
+            <ul>
+              {audience.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </InfoCard>
+        ))}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <span class="section-label">Navigate Fast</span>
+        <h2 class="section-title">Use the docs intentionally.</h2>
+        <p class="section-copy">
+          The landing page should help a new visitor answer “is this relevant to me?” immediately.
+          After that, the docs split into short paths instead of one giant wall of technical detail.
+        </p>
+      </div>
+
+      <div class="content-grid content-grid--two">
+        <InfoCard title="Start with the docs hub">
+          <p>
+            Go to <a href="/docs/">Docs</a> for the project overview, installation, and the
+            language basics.
+          </p>
+        </InfoCard>
+
+        <InfoCard title="Jump to reference when you already know the tool">
+          <p>
+            Use <a href="/reference/cli/">CLI reference</a> and <a href="/reference/attributes/">attribute reference</a>
+            when you need specifics without rereading the introductory material.
+          </p>
+        </InfoCard>
+      </div>
+
+      <div class="section-card docs-callout">
+        <div>
+          <h3>Primary next step</h3>
+          <p>
+            If you are evaluating CCL, read the language overview and the getting-started page
+            before diving into generators or internals.
+          </p>
+        </div>
+        <a class="button button--primary" href="/docs/get-started/">Open getting started</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-shell site-footer">
+    CCL docs site. Built for quick evaluation first, detailed reference second.
+  </footer>
+</LandingLayout>
