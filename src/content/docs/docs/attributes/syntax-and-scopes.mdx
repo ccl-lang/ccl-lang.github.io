@@ -1,0 +1,56 @@
+---
+title: Attribute Syntax and Scopes
+description: Attribute placement, scoped attributes, parameters, and language selectors.
+---
+
+## Normal attributes
+
+Normal attributes use square brackets and apply to the next model or field.
+
+```txt
+[SerializationType("json")]
+model AuthGuestAnswer {
+    [JsonPropertyName("rpc_id")]
+    RpcId: uint16;
+}
+```
+
+## Scoped attributes
+
+Hash-prefixed attributes apply beyond a single model or field.
+
+```txt
+#[SerializationType("json")]
+#file:[OutputFileGroup("api")]
+#namespace:[OutputFileGroup("shared")]
+```
+
+Supported scopes:
+
+- `#[Attr]` or `#global:[Attr]`: global scope.
+- `#file:[Attr]`: current source file.
+- `#namespace:[Attr]`: current namespace.
+
+When an attribute is resolved for a model, CCL checks model-local attributes first, then file scope, namespace scope, parent namespace scope, and global scope.
+
+## Language selectors
+
+Prefix an attribute with one or more target language selectors to apply it only to those generators.
+
+```txt
+[$go:OutputFileGroup("server")]
+[$go,$ts:SerializationType("json")]
+#namespace:[$cs:OutputFileGroup("contracts")]
+```
+
+Common selectors include `go`, `gd`, `godot`, `gdscript`, `cs`, `csharp`, `py`, `python`, `js`, `javascript`, `ts`, and `typescript`.
+
+## Parameters
+
+Attributes can use unnamed parameters, named parameters, and identifier values.
+
+```txt
+[Attr("value", 123)]
+[Attr(Name = "value")]
+[Attr(SomeGlobalValue)]
+```

@@ -1,0 +1,23 @@
+---
+title: Imports
+description: How CCL source files import other CCL source files.
+---
+
+Use `import` to include models from another `.ccl` file.
+
+```txt
+import "shared_models.ccl";
+import "contracts/user.ccl";
+```
+
+Relative import paths are resolved from the directory of the file that contains the import.
+They are not resolved from the process working directory.
+
+Absolute paths are accepted after normal path cleaning.
+
+## Import rules
+
+- Each resolved source file is compiled once.
+- Imported declarations are available to the importing file.
+- Circular imports fail with an import resolution error.
+- Imports are only supported when parsing a source file. Standalone source content cannot import other files because it has no reliable base directory.

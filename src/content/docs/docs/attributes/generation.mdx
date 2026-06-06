@@ -1,0 +1,87 @@
+---
+title: Generation Attributes
+description: Attributes that control output layout and generator behavior.
+---
+
+## `CCLVersion`
+
+Declares the expected CCL version for a source file.
+
+```txt
+#[CCLVersion("1.0.0")]
+```
+
+## `OutputFileGroup`
+
+Groups generated output files.
+
+```txt
+#[OutputFileGroup("shared")]
+#namespace:[$go:OutputFileGroup("api")]
+
+[OutputFileGroup("positions")]
+model PositionInfo {
+    X: int64;
+}
+```
+
+The group value must be a non-empty string when used and may contain only letters, digits, and underscores.
+
+The Go generator currently uses this to route model artifacts into grouped files such as `types_positions.go` and `methods_positions.go`.
+
+## `FileNamingStyle`
+
+Controls generated per-model filenames where the target generator supports per-model files.
+
+```txt
+#[FileNamingStyle("snake_case")]
+```
+
+Supported style names are:
+
+- `PascalCase`
+- `camelCase`
+- `snake_case`
+- `kebab-case`
+
+Python and GDScript currently support `PascalCase`, `camelCase`, and `snake_case`, with `snake_case` as the default.
+
+## `GenerateSingleFile`
+
+Requests single-file output for generators that support it.
+
+```txt
+#[GenerateSingleFile(true, "models.ts")]
+```
+
+Currently used by JavaScript, TypeScript, and C#.
+
+## `AddCloneMethods`
+
+Requests generated clone helpers for supported targets.
+
+```txt
+#[AddCloneMethods(true)]
+```
+
+Go currently supports this by adding `CloneEmpty` methods.
+
+## `AddSerializableInterface`
+
+Requests extra Go clone output that returns the generated `Serializable` interface.
+
+```txt
+#[$go:AddSerializableInterface]
+```
+
+This is a Go-specific generation attribute.
+
+## `CSharpNamespace`
+
+Sets the namespace for generated C# code.
+
+```txt
+#[$cs:CSharpNamespace("My.Project.Contracts")]
+```
+
+If it is not set, the C# generator uses its namespace fallback behavior.

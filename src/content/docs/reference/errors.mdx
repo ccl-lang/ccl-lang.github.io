@@ -1,0 +1,54 @@
+---
+title: Error Reference
+description: Common compiler and generator error types reported by CCL.
+---
+
+CCL errors try to fail clearly instead of silently generating wrong code.
+
+## Validation and attributes
+
+### `ValidationError`
+
+Generic validation failure.
+
+### `InvalidAttributeUsageError`
+
+An attribute was used with the wrong parameters, in the wrong context, or on the wrong entity.
+
+## Duplicate definitions
+
+### `DuplicateFieldError`
+
+A model contains more than one field with the same name.
+
+### `DuplicateModelError`
+
+A source file or project contains more than one model with the same name.
+
+## Generation support
+
+### `UnsupportedFieldTypeError`
+
+A generator cannot map a specific field type for a target language.
+
+### `UnsupportedTypeDefinitionError`
+
+A generator encountered a type definition kind it does not support.
+
+### `UnsupportedFileNamingStyleError`
+
+`FileNamingStyle` was set to a style unsupported by the selected target generator.
+
+### `FieldNameConflictError`
+
+A field name conflicts with a reserved name, built-in type name, model name, or another protected name.
+
+## Generator setup
+
+### `language not supported`
+
+The requested target language or alias is not registered.
+
+### `missing code context`
+
+Generation was requested without a parsed CCL code context.

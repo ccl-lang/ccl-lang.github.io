@@ -1,0 +1,46 @@
+---
+title: Serialization Attributes
+description: Attributes for generated binary and JSON serialization methods.
+---
+
+## `SerializationType`
+
+Enables serialization generation.
+
+```txt
+#[SerializationType("binary")]
+#[SerializationType("json")]
+
+[SerializationType("json")]
+model UserInfo {
+    Id: string;
+}
+```
+
+Supported values are:
+
+- `binary`
+- `json`
+
+The attribute can be global or model-local, and can be language-scoped.
+
+```txt
+#[$go,$ts:SerializationType("json")]
+```
+
+## `BinarySerializationEndian`
+
+Controls binary serialization byte order where supported.
+
+```txt
+#[BinarySerializationEndian("little")]
+#[BinarySerializationEndian("big")]
+```
+
+Supported values are:
+
+- `little`
+- `big`
+- `small`, accepted as an alias for `little`
+
+When omitted, binary serialization defaults to little-endian behavior.

@@ -1,0 +1,37 @@
+---
+title: Attributes
+description: How CCL attributes work and which attributes are currently supported.
+---
+
+Attributes change how CCL source is interpreted or how target code is generated.
+
+Use this section when you need to know where an attribute can be placed, how to target a specific generator, or which values are accepted.
+
+## Attribute pages
+
+- [Syntax and scopes](/docs/attributes/syntax-and-scopes/) explains normal attributes, scoped attributes, and language selectors.
+- [Generation attributes](/docs/attributes/generation/) covers file naming, output grouping, single-file generation, clone helpers, and C# namespaces.
+- [Serialization attributes](/docs/attributes/serialization/) covers binary and JSON serialization flags and binary endian selection.
+- [JSON attributes](/docs/attributes/json/) covers generated JSON field names and naming strategies.
+
+## Quick example
+
+```txt
+#[CCLVersion("1.0.0")]
+#[SerializationType("binary")]
+#[SerializationType("json")]
+
+#namespace:[$go:OutputFileGroup("shared")]
+
+[OutputFileGroup("positions")]
+model PositionInfo {
+    X: int64;
+    Y: int64;
+    Z: int64;
+}
+
+model UserInfo {
+    [JsonPropertyName("user_id")]
+    Id: string;
+}
+```

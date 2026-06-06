@@ -1,0 +1,33 @@
+---
+title: Serialization
+description: Generated binary and JSON serialization methods by target language.
+---
+
+Serialization is enabled with [`SerializationType`](/docs/attributes/serialization/).
+
+```txt
+#[SerializationType("binary")]
+#[SerializationType("json")]
+```
+
+## JSON
+
+Bytes are represented as base64 strings in JSON.
+Nested CCL models use their generated JSON methods recursively.
+Arrays are serialized with explicit loops in generated code.
+
+Generated JSON methods:
+
+| Target | Methods |
+| --- | --- |
+| Go | `SerializeJSON`, `DeserializeJSON` |
+| C# | `SerializeJsonObject`, `SerializeJson`, `DeserializeJsonObject`, `DeserializeJson` |
+| GDScript | `serialize_json_dict`, `serialize_json`, `deserialize_json_dict`, `deserialize_json` |
+| Python | `serialize_json_dict`, `serialize_json`, `deserialize_json_dict`, `deserialize_json` |
+| JavaScript | `serializeJsonObject`, `serializeJson`, `deserializeJsonObject`, `deserializeJson` |
+| TypeScript | `serializeJsonObject`, `serializeJson`, `deserializeJsonObject`, `deserializeJson` |
+
+## Binary
+
+Binary serialization is generated for targets that support it.
+Use [`BinarySerializationEndian`](/docs/attributes/serialization/#binaryserializationendian) to request byte order where supported.
