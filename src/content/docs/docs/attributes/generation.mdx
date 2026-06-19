@@ -66,6 +66,23 @@ Requests generated clone helpers for supported targets.
 
 Go currently supports this by adding `CloneEmpty` methods.
 
+## `AddAnnotation`
+
+Adds a raw target-language annotation line above a generated model class.
+
+```txt
+[AddAnnotation("@stuff")]
+[AddAnnotation("@stuff2")]
+[AddAnnotation("@stuff(23)")]
+model UserInfo {
+    Id: string;
+}
+```
+
+Multiple `AddAnnotation` attributes can be placed on the same model. CCL copies the first parameter exactly as the generated annotation line and does not validate the target-language annotation syntax.
+
+GDScript currently consumes this attribute.
+
 ## `AddSerializableInterface`
 
 Requests extra Go clone output that returns the generated `Serializable` interface.
