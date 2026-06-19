@@ -44,3 +44,17 @@ Supported values are:
 - `small`, accepted as an alias for `little`
 
 When omitted, binary serialization defaults to little-endian behavior.
+
+## `StrictBinaryParsing`
+
+Controls what generated binary deserializers do when the input ends before all model fields are read.
+
+```txt
+#[StrictBinaryParsing(false)]
+```
+
+When omitted, strict binary parsing is enabled. Strict parsing returns the target language's failure value when required bytes are missing.
+
+When set to `false`, supported generators return the partially parsed model instead. This is useful for local save data where newer schema fields should keep their default values when reading older binary data.
+
+The attribute can be global or model-local, and can be language-scoped.
