@@ -1,0 +1,110 @@
+---
+title: Enums
+description: How CCL enum declarations work and how to use them in models.
+---
+
+Enums define a named set of integer values that can be used as model field types.
+They can be declared at the top level of a file or inside a model.
+
+## Basic syntax
+
+```txt
+enum SkinType {
+    Basic,
+    Texture,
+}
+```
+
+When no value is provided, enum members start at `0` and increase by `1`.
+The example above is equivalent to:
+
+```txt
+enum SkinType {
+    Basic = 0;
+    Texture = 1;
+}
+```
+
+Commas and semicolons can both separate enum members.
+
+## Base type
+
+Enums use `int32` by default. You can choose another integer base type with `:`.
+
+```txt
+enum SkinType : uint8 {
+    Basic = 0;
+    Texture = 1;
+}
+```
+
+Supported enum base types are:
+
+- `int`, `int8`, `int16`, `int32`, `int64`
+- `uint`, `uint8`, `uint16`, `uint32`, `uint64`
+
+`int` is stored as `int32`, and `uint` is stored as `uint32`.
+Enum values must fit inside the selected base type.
+
+## Explicit values
+
+You can assign explicit integer values to individual members. Members that follow an explicit value continue from that value.
+
+```txt
+enum UserType {
+    Unknown,
+    Admin = 10,
+    Guest,
+}
+```
+
+In this example, `Unknown` is `0`, `Admin` is `10`, and `Guest` is `11`.
+Member names must be unique inside the enum.
+
+## Using enums in models
+
+Use an enum name as a model field type.
+
+```txt
+enum SkinType : uint8 {
+    Basic = 0;
+    Texture = 1;
+}
+
+model SkinInfo {
+    Type: SkinType;
+}
+```
+
+Enum default values must use the enum name and member name.
+
+```txt
+model SkinInfo {
+    Type: SkinType = SkinType.Basic;
+}
+```
+
+## Nested enums
+
+Enums can be declared inside a model when they only belong to that model.
+
+```txt
+model UserInfo {
+    enum UserType {
+        Unknown,
+        Player,
+        Admin,
+    }
+
+    Type: UserType = UserType.Player;
+}
+```
+
+Nested enum names are scoped to the owning model. This helps keep model-specific choices close to the data that uses them.
+
+## Validation rules
+
+- Enum base types must be integer types.
+- Enum member names must be unique within the enum.
+- Enum member values must fit within the enum base type.
+- Enum field default values must reference a member of the same enum type.

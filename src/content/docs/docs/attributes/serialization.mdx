@@ -58,3 +58,17 @@ When omitted, strict binary parsing is enabled. Strict parsing returns the targe
 When set to `false`, supported generators return the partially parsed model instead. This is useful for local save data where newer schema fields should keep their default values when reading older binary data.
 
 The attribute can be global or model-local, and can be language-scoped.
+
+## `UseWGodot`
+
+Controls whether the GDScript binary generator emits WGodot-friendly `get_data` reads.
+
+```txt
+#[$gd:UseWGodot(true)]
+```
+
+When set to `true`, the gd codegen will generate code for WGodot engine (instead of normal Godot). Please note that the generated WGodot code might not work in normal Godot engine (e.g. it may use methods/functions that only exist in `WGodot` engine).
+
+When omitted, the value defaults to `false`.
+
+The attribute can be global or model-local, and can be language-scoped.

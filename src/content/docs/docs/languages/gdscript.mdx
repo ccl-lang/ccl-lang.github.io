@@ -13,6 +13,50 @@ description: CCL generator status and current support for GDScript.
 - Serialization support: binary and JSON.
 - Other features: additional generator features are already available here compared with some newer targets.
 
+## Enum naming
+
+Top-level CCL enums are generated as GDScript files with a `class_name` that matches the CCL enum name. To avoid having the inner GDScript `enum` conflict with or duplicate that `class_name`, the generated enum declaration appends `Enum` to the CCL enum name.
+
+```txt
+enum SkinType : uint8 {
+    Basic = 0;
+    Texture = 1;
+}
+```
+
+```gdscript
+class_name SkinType
+
+enum SkinTypeEnum {
+    BASIC = 0,
+    TEXTURE = 1,
+}
+```
+
+Enums declared inside a model do not need that suffix because they are already scoped inside the generated model class. In that case, the enum keeps its CCL name.
+
+```txt
+model UserInfo {
+    enum UserType {
+        Unknown,
+        Player,
+    }
+
+    Type: UserType;
+}
+```
+
+```gdscript
+class_name UserInfo
+
+enum UserType {
+    UNKNOWN = 0,
+    PLAYER = 1,
+}
+
+var type: UserType
+```
+
 ## Notes
 
 If you want the broadest currently supported feature set outside Go, GDScript is one of the strongest targets right now.

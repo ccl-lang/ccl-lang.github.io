@@ -37,6 +37,24 @@ model UserInfo {
 }
 ```
 
+### Enums
+
+Enums define named integer choices that can be used as field types.
+
+```txt
+enum UserType : uint8 {
+    Unknown,
+    Player,
+    Admin,
+}
+
+model UserInfo {
+    Type: UserType = UserType.Player;
+}
+```
+
+See [Enums](/docs/enums/) for base types, explicit values, and nested model enums.
+
 ### Per-model attributes
 
 Models can also carry attributes.

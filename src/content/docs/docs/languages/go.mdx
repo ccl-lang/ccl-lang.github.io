@@ -12,6 +12,12 @@ description: CCL generator status and current support for Go.
 - Generator status: available now.
 - Serialization support: binary.
 
+## Constants output
+
+Generated Go model ID constants always go into `constants.go`, even when a model uses `OutputFileGroup`. These constants are internal CCL metadata and are intentionally kept in one stable file and one stable `const` block.
+
+Enum member constants follow their enum output file group. For example, `[OutputFileGroup("skins")] enum SkinType` emits its members into `constants_skins.go`, while a nested enum inside a model uses the owning model's output file group.
+
 ## Notes
 
 Go is one of the currently usable CCL targets and is a good reference point for the basic generator workflow.

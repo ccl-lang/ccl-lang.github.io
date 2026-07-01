@@ -28,6 +28,7 @@ model PositionInfo {
 The group value must be a non-empty string when used and may contain only letters, digits, and underscores.
 
 The Go generator currently uses this to route model artifacts into grouped files such as `types_positions.go` and `methods_positions.go`.
+Go enum member constants also follow the enum output file group, but generated `ModelId*` constants are an exception: they always go into `constants.go` because they are internal CCL metadata.
 
 ## `FileNamingStyle`
 
