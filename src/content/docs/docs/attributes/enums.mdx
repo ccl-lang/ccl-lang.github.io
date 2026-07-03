@@ -1,0 +1,59 @@
+---
+title: Enum Attributes
+description: Attributes that control output layout and generator behavior for enums.
+---
+
+
+## `EnumMemberNamingStyle`
+
+Controls how enum member names are styled in generated code.
+
+```txt
+[EnumMemberNamingStyle("PascalCase")]
+enum UserType {
+    Unknown,
+    Admin,
+}
+```
+
+Supported style names are:
+
+- `PascalCase`
+- `camelCase`
+- `snake_case`
+- `kebab-case`
+- `UPPER_CASE`
+
+## `EnumMemberNamePrefix`
+
+Adds a raw prefix before generated enum member names.
+
+```txt
+[EnumMemberNamePrefix("Api")]
+enum UserType {
+    Unknown,
+    Admin,
+}
+```
+
+The first parameter may be a string, `null`, or an empty string. `null` and `""` resolve to an empty prefix.
+
+For nested enums in Go, generated member names normally include the parent model name before the enum name. Applying `EnumMemberNamePrefix(null)` or `EnumMemberNamePrefix("")` removes that parent-model prefix, while a non-empty value replaces it. The Go enum name prefix is still emitted.
+
+## `EnumTypeNamePrefix`
+
+Adds a raw prefix before generated enum type names.
+
+```txt
+[EnumTypeNamePrefix("Api")]
+enum UserType {
+    Unknown,
+    Admin,
+}
+```
+
+The first parameter may be a string, `null`, or an empty string. `null` and `""` resolve to an empty prefix.
+
+For nested enums in Go, generated enum type names normally include the parent model name before the enum name. Applying `EnumTypeNamePrefix(null)` or `EnumTypeNamePrefix("")` removes that parent-model prefix, while a non-empty value replaces it.
+
+`EnumTypeNamePrefix` only changes the generated enum type name. It does not change CCL type references in source code and does not replace `EnumMemberNamePrefix`.
