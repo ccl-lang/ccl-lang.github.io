@@ -17,6 +17,16 @@ const { title, description } = Astro.props;
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      (() => {
+        const storedTheme =
+          typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+        const theme =
+          storedTheme ||
+          (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+      })();
+    </script>
     <title>{title}</title>
   </head>
   <body>

@@ -1,7 +1,93 @@
 @import './theme.css';
 
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
+  --landing-html-bg:
+    radial-gradient(circle at top left, rgba(15, 118, 110, 0.14), transparent 32%),
+    radial-gradient(circle at 85% 12%, rgba(196, 107, 55, 0.14), transparent 26%),
+    linear-gradient(180deg, #f9f6ef 0%, #f2eee3 100%);
+  --landing-header-bg: rgba(249, 246, 239, 0.82);
+  --landing-header-border: rgba(47, 54, 49, 0.08);
+  --landing-surface: rgba(255, 255, 255, 0.82);
+  --landing-surface-strong: rgba(255, 255, 255, 0.94);
+  --landing-surface-soft: rgba(255, 255, 255, 0.7);
+  --landing-secondary-bg: rgba(255, 255, 255, 0.66);
+  --landing-subtle-border: rgba(47, 54, 49, 0.08);
+  --landing-accent-border: rgba(15, 118, 110, 0.2);
+  --landing-accent-bg: rgba(15, 118, 110, 0.08);
+  --landing-button-text: #f7f5ef;
+  --landing-inverse-text: #f7f5ef;
+  --landing-code-bg: #171713;
+  --landing-code-text: #f3efe5;
+  --landing-code-dot: #d6d1c5;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --ccl-bg: #171713;
+  --ccl-surface: rgba(28, 29, 24, 0.84);
+  --ccl-surface-strong: rgba(34, 35, 29, 0.94);
+  --ccl-border: rgba(235, 229, 215, 0.1);
+  --ccl-border-strong: rgba(235, 229, 215, 0.22);
+  --ccl-text: #f3efe5;
+  --ccl-muted: #c9c0b0;
+  --ccl-accent: #72d6cb;
+  --ccl-accent-strong: #72d6cb;
+  --ccl-warm: #e09a6b;
+  --ccl-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+  --landing-html-bg:
+    radial-gradient(circle at top left, rgba(114, 214, 203, 0.12), transparent 32%),
+    radial-gradient(circle at 85% 12%, rgba(224, 154, 107, 0.1), transparent 26%),
+    linear-gradient(180deg, #171713 0%, #10110e 100%);
+  --landing-header-bg: rgba(23, 23, 19, 0.88);
+  --landing-header-border: rgba(235, 229, 215, 0.08);
+  --landing-surface: rgba(28, 29, 24, 0.84);
+  --landing-surface-strong: rgba(34, 35, 29, 0.94);
+  --landing-surface-soft: rgba(35, 37, 31, 0.72);
+  --landing-secondary-bg: rgba(255, 255, 255, 0.06);
+  --landing-subtle-border: rgba(235, 229, 215, 0.08);
+  --landing-accent-border: rgba(114, 214, 203, 0.28);
+  --landing-accent-bg: rgba(114, 214, 203, 0.1);
+  --landing-button-text: #171713;
+  --landing-inverse-text: #171713;
+  --landing-code-bg: #0f100d;
+  --landing-code-text: #f3efe5;
+  --landing-code-dot: #6a6252;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --ccl-bg: #171713;
+    --ccl-surface: rgba(28, 29, 24, 0.84);
+    --ccl-surface-strong: rgba(34, 35, 29, 0.94);
+    --ccl-border: rgba(235, 229, 215, 0.1);
+    --ccl-border-strong: rgba(235, 229, 215, 0.22);
+    --ccl-text: #f3efe5;
+    --ccl-muted: #c9c0b0;
+    --ccl-accent: #72d6cb;
+    --ccl-accent-strong: #72d6cb;
+    --ccl-warm: #e09a6b;
+    --ccl-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+    --landing-html-bg:
+      radial-gradient(circle at top left, rgba(114, 214, 203, 0.12), transparent 32%),
+      radial-gradient(circle at 85% 12%, rgba(224, 154, 107, 0.1), transparent 26%),
+      linear-gradient(180deg, #171713 0%, #10110e 100%);
+    --landing-header-bg: rgba(23, 23, 19, 0.88);
+    --landing-header-border: rgba(235, 229, 215, 0.08);
+    --landing-surface: rgba(28, 29, 24, 0.84);
+    --landing-surface-strong: rgba(34, 35, 29, 0.94);
+    --landing-surface-soft: rgba(35, 37, 31, 0.72);
+    --landing-secondary-bg: rgba(255, 255, 255, 0.06);
+    --landing-subtle-border: rgba(235, 229, 215, 0.08);
+    --landing-accent-border: rgba(114, 214, 203, 0.28);
+    --landing-accent-bg: rgba(114, 214, 203, 0.1);
+    --landing-button-text: #171713;
+    --landing-inverse-text: #171713;
+    --landing-code-bg: #0f100d;
+    --landing-code-text: #f3efe5;
+    --landing-code-dot: #6a6252;
+  }
 }
 
 * {
@@ -9,10 +95,7 @@
 }
 
 html {
-  background:
-    radial-gradient(circle at top left, rgba(15, 118, 110, 0.14), transparent 32%),
-    radial-gradient(circle at 85% 12%, rgba(196, 107, 55, 0.14), transparent 26%),
-    linear-gradient(180deg, #f9f6ef 0%, #f2eee3 100%);
+  background: var(--landing-html-bg);
 }
 
 body {
@@ -36,8 +119,8 @@ a {
   top: 0;
   z-index: 20;
   backdrop-filter: blur(16px);
-  background: rgba(249, 246, 239, 0.82);
-  border-bottom: 1px solid rgba(47, 54, 49, 0.08);
+  background: var(--landing-header-bg);
+  border-bottom: 1px solid var(--landing-header-border);
 }
 
 .site-header__inner {
@@ -105,7 +188,7 @@ a {
   padding: 0.82rem 1.15rem;
   border-radius: 999px;
   background: var(--ccl-text);
-  color: #f7f5ef;
+  color: var(--landing-inverse-text);
   text-decoration: none;
   box-shadow: 0 14px 28px rgba(31, 39, 35, 0.14);
 }
@@ -121,7 +204,7 @@ a {
 .hero__code,
 .section-card {
   border: 1px solid var(--ccl-border);
-  background: var(--ccl-surface);
+  background: var(--landing-surface);
   box-shadow: var(--ccl-shadow);
   backdrop-filter: blur(14px);
 }
@@ -137,8 +220,8 @@ a {
   gap: 0.55rem;
   padding: 0.48rem 0.78rem;
   border-radius: 999px;
-  border: 1px solid rgba(15, 118, 110, 0.2);
-  background: rgba(15, 118, 110, 0.08);
+  border: 1px solid var(--landing-accent-border);
+  background: var(--landing-accent-bg);
   color: var(--ccl-accent-strong);
   font-size: 0.85rem;
   font-weight: 600;
@@ -191,7 +274,7 @@ a {
 
 .button--secondary {
   border: 1px solid var(--ccl-border-strong);
-  background: rgba(255, 255, 255, 0.66);
+  background: var(--landing-secondary-bg);
 }
 
 .hero__facts {
@@ -203,8 +286,8 @@ a {
 .fact {
   padding: 1rem;
   border-radius: var(--ccl-radius-md);
-  border: 1px solid rgba(47, 54, 49, 0.08);
-  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--landing-subtle-border);
+  background: var(--landing-surface-soft);
 }
 
 .fact strong {
@@ -238,7 +321,7 @@ a {
   width: 0.72rem;
   height: 0.72rem;
   border-radius: 999px;
-  background: #d6d1c5;
+  background: var(--landing-code-dot);
 }
 
 .hero__code-dot--accent {
@@ -250,8 +333,8 @@ a {
   margin: 0;
   padding: 1.25rem;
   border-radius: calc(var(--ccl-radius-xl) - 8px);
-  background: #171713;
-  color: #f3efe5;
+  background: var(--landing-code-bg);
+  color: var(--landing-code-text);
   font-family: var(--ccl-code-font);
   font-size: 0.93rem;
   line-height: 1.65;

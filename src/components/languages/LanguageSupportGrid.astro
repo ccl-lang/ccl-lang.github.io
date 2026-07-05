@@ -1,5 +1,5 @@
 ---
-import { languageSupport } from '../../data/languages';
+import { languageSupport, type LanguageStatus } from '../../data/languages';
 
 interface Props {
   variant?: 'landing' | 'docs';
@@ -9,14 +9,30 @@ const { variant = 'landing' } = Astro.props;
 const isLanding = variant === 'landing';
 
 const statusLabels = {
-  supported: 'Supported',
+  stable: 'Stable',
   developing: 'Developing',
   planning: 'Planning',
 } as const;
+
+const statusOrder: Record<LanguageStatus, number> = {
+  stable: 0,
+  developing: 1,
+  planning: 2,
+};
+
+const sortedLanguageSupport = [...languageSupport].sort((leftLanguage, rightLanguage) => {
+  const statusDifference = statusOrder[leftLanguage.status] - statusOrder[rightLanguage.status];
+
+  if (statusDifference !== 0) {
+    return statusDifference;
+  }
+
+  return leftLanguage.name.localeCompare(rightLanguage.name);
+});
 ---
 
 <div class:list={['language-grid', { 'language-grid--docs': !isLanding }]}>
-  {languageSupport.map((language) => (
+  {sortedLanguageSupport.map((language) => (
     <a class="language-card" href={`/docs/languages/${language.slug}/`}>
       <div class="language-card__header">
         <div>
@@ -35,10 +51,39 @@ const statusLabels = {
 
 <style>
   .language-grid {
+    --language-card-bg: rgba(255, 255, 255, 0.78);
+    --language-card-border: rgba(47, 54, 49, 0.14);
+    --language-card-border-hover: rgba(17, 94, 89, 0.34);
+    --language-card-shadow: 0 12px 30px rgba(31, 39, 35, 0.08);
+    --language-card-shadow-hover: 0 18px 34px rgba(31, 39, 35, 0.1);
+    --language-card-text: var(--sl-color-text, var(--ccl-text, #1f2723));
+    --language-card-muted: var(--sl-color-text-muted, var(--ccl-muted, #56645d));
+    --language-badge-stable-bg: #d8e2df;
+    --language-badge-stable-text: #0f766e;
+    --language-badge-developing-bg: rgba(196, 107, 55, 0.14);
+    --language-badge-developing-text: #a14d1f;
+    --language-badge-planning-bg: rgba(86, 100, 93, 0.12);
+    --language-badge-planning-text: #56645d;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
     margin-top: 1.6rem;
+  }
+
+  :global(:root[data-theme='dark']) .language-grid {
+    --language-card-bg: rgba(28, 29, 24, 0.96);
+    --language-card-border: rgba(235, 229, 215, 0.11);
+    --language-card-border-hover: rgba(114, 214, 203, 0.4);
+    --language-card-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+    --language-card-shadow-hover: 0 22px 44px rgba(0, 0, 0, 0.3);
+    --language-card-text: #f3efe5;
+    --language-card-muted: #c9c0b0;
+    --language-badge-stable-bg: #d8e2df;
+    --language-badge-stable-text: #0f766e;
+    --language-badge-developing-bg: rgba(224, 154, 107, 0.14);
+    --language-badge-developing-text: #e09a6b;
+    --language-badge-planning-bg: rgba(207, 195, 175, 0.12);
+    --language-badge-planning-text: #cfc3af;
   }
 
   .language-grid--docs {
@@ -50,19 +95,19 @@ const statusLabels = {
     display: grid;
     gap: 0.85rem;
     padding: 1.15rem;
-    border: 1px solid rgba(47, 54, 49, 0.12);
+    border: 1px solid var(--language-card-border);
     border-radius: 18px;
-    background: rgba(255, 255, 255, 0.72);
-    color: inherit;
+    background: var(--language-card-bg);
+    color: var(--language-card-text);
     text-decoration: none;
-    box-shadow: 0 12px 30px rgba(31, 39, 35, 0.08);
+    box-shadow: var(--language-card-shadow);
     transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
   }
 
   .language-card:hover {
     transform: translateY(-2px);
-    border-color: rgba(17, 94, 89, 0.3);
-    box-shadow: 0 18px 34px rgba(31, 39, 35, 0.1);
+    border-color: var(--language-card-border-hover);
+    box-shadow: var(--language-card-shadow-hover);
   }
 
   .language-card__header {
@@ -75,7 +120,7 @@ const statusLabels = {
   .language-card__short {
     display: inline-block;
     margin-bottom: 0.35rem;
-    color: #56645d;
+    color: var(--language-card-muted);
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -99,19 +144,19 @@ const statusLabels = {
     white-space: nowrap;
   }
 
-  .language-card__status--supported {
-    background: rgba(15, 118, 110, 0.12);
-    color: #0f766e;
+  .language-card__status--stable {
+    background: var(--language-badge-stable-bg);
+    color: var(--language-badge-stable-text);
   }
 
   .language-card__status--developing {
-    background: rgba(196, 107, 55, 0.14);
-    color: #a14d1f;
+    background: var(--language-badge-developing-bg);
+    color: var(--language-badge-developing-text);
   }
 
   .language-card__status--planning {
-    background: rgba(86, 100, 93, 0.12);
-    color: #56645d;
+    background: var(--language-badge-planning-bg);
+    color: var(--language-badge-planning-text);
   }
 
   .language-card__summary,
@@ -121,11 +166,11 @@ const statusLabels = {
   }
 
   .language-card__summary {
-    color: inherit;
+    color: var(--language-card-text);
   }
 
   .language-card__support {
-    color: #56645d;
+    color: var(--language-card-muted);
     font-size: 0.95rem;
   }
 
