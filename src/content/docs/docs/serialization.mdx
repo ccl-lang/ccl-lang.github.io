@@ -31,3 +31,122 @@ Generated JSON methods:
 
 Binary serialization is generated for targets that support it.
 Use [`BinarySerializationEndian`](/docs/attributes/serialization/#binaryserializationendian) to request byte order where supported.
+
+The binary format is field-order based. Generated serializers write fields in the same order they appear in the CCL model, and generated deserializers read fields in that same order. Field names are not included in the binary payload.
+
+A model's own binary payload does not include a null marker or a presence marker. Presence is written only by the parent field or array item that references a nested model.
+
+### Byte Order
+
+Multi-byte numeric values use the configured binary byte order. Unless a target or model overrides it with `BinarySerializationEndian`, the default is little-endian.
+
+Byte order applies to:
+
+- Integer values wider than 1 byte.
+- Floating-point values.
+- `uint32` length prefixes.
+- `datetime` values.
+
+Single-byte values such as `bool`, `int8`, `uint8`, and presence markers are not affected by byte order.
+
+### Primitive Values
+
+| CCL type | Binary representation |
+| --- | --- |
+| `bool` | 1 byte: `0` for `false`, `1` for `true` |
+| `int8` / `uint8` | 1 byte |
+| `int16` / `uint16` | 2 bytes |
+| `int`, `int32`, `uint`, `uint32` | 4 bytes |
+| `int64` / `uint64` | 8 bytes |
+| `float`, `float32` | 4 bytes, IEEE 754 binary32 |
+| `float64` | 8 bytes, IEEE 754 binary64 |
+| `datetime` | 8 bytes, signed integer value used by generated code |
+| enum | The enum's configured integer base type |
+
+### Strings And Bytes
+
+Strings are encoded as UTF-8 bytes with a `uint32` byte-length prefix:
+
+```txt
+[length: uint32] [utf8 bytes: length bytes]
+```
+
+Raw `bytes` fields use the same shape:
+
+```txt
+[length: uint32] [raw bytes: length bytes]
+```
+
+An empty string and an empty bytes value are encoded with `length = 0` and no following payload bytes.
+
+### Arrays
+
+Arrays start with a `uint32` item count. Each item is then encoded using that item's normal binary representation.
+
+```txt
+[count: uint32] [item 0] [item 1] ... [item count-1]
+```
+
+For example, a `string[]` field is:
+
+```txt
+[count: uint32]
+  [item 0 length: uint32] [item 0 utf8 bytes]
+  [item 1 length: uint32] [item 1 utf8 bytes]
+  ...
+```
+
+### Nested Models
+
+Nested CCL model fields are nullable in generated targets that represent nested models as references or pointers. They are encoded with an explicit 1-byte presence marker.
+
+```txt
+null:
+[presence: uint8 = 0]
+
+not null:
+[presence: uint8 = 1] [payload length: uint32] [nested model payload]
+```
+
+The nested model payload is the result of serializing the nested model itself. The `payload length` is the number of bytes in that nested model payload.
+
+This avoids ambiguous encodings. For example, an empty nested model is not null:
+
+```txt
+[presence: 1] [payload length: 0]
+```
+
+A null nested model is only:
+
+```txt
+[presence: 0]
+```
+
+The nested model deserializer receives only the nested model payload bytes. It does not receive the presence marker or the `payload length`.
+
+An empty payload is valid for a model with no fields:
+
+```txt
+[]
+```
+
+This is different from null. A present empty nested model is encoded by the parent as:
+
+```txt
+[presence: 1] [payload length: 0]
+```
+
+Arrays of nested models use the same presence rule for each item, after the array count:
+
+```txt
+[count: uint32]
+  [item 0 presence: uint8]
+  if item 0 is present: [item 0 payload length: uint32] [item 0 payload]
+  ...
+```
+
+Presence marker values other than `0` and `1` are invalid binary data.
+
+### Partial Data
+
+Generated deserializers validate length-prefixed payloads before reading them. When [`StrictBinaryParsing`](/docs/attributes/serialization/#strictbinaryparsing) is enabled, incomplete or malformed binary data fails deserialization. When it is disabled, generated deserializers may return a partially decoded model according to the target language's existing behavior.
