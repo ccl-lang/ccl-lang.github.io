@@ -5,7 +5,7 @@ description: Attribute placement, scoped attributes, parameters, and language se
 
 ## Normal attributes
 
-Normal attributes use square brackets and apply to the next model or field.
+Normal attributes use square brackets and apply to the next model, enum, or field.
 
 ```txt
 [SerializationType("json")]
@@ -32,6 +32,8 @@ Supported scopes:
 - `#namespace:[Attr]`: current namespace.
 
 When an attribute is resolved for a model, CCL checks model-local attributes first, then file scope, namespace scope, parent namespace scope, and global scope.
+
+Enum generation settings check the enum first, then its owning model, followed by the same scoped fallbacks. Enum mapping targets and fallback members must be declared directly on their enum.
 
 ## Language selectors
 

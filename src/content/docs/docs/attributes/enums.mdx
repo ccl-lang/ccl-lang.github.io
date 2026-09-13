@@ -57,3 +57,68 @@ The first parameter may be a string, `null`, or an empty string. `null` and `""`
 For nested enums in Go, generated enum type names normally include the parent model name before the enum name. Applying `EnumTypeNamePrefix(null)` or `EnumTypeNamePrefix("")` removes that parent-model prefix, while a non-empty value replaces it.
 
 `EnumTypeNamePrefix` only changes the generated enum type name. It does not change CCL type references in source code and does not replace `EnumMemberNamePrefix`.
+
+## Enum mapping
+
+`EnumMapSameMembers(TargetEnum)` generates a conversion from the annotated enum to the target enum. Each direction must be declared explicitly.
+
+`EnumMapUnknownMember(CurrentEnum.Member)` sets the fallback for conversions **arriving at the annotated enum**. Every destination needs a fallback. Both attributes apply only to enum declarations; their arguments are symbol references, without quotes. Nested, qualified, imported, and later declarations are supported.
+
+```txt
+#[EnumMapUseShortMethodName(true)]
+
+model GameItem {
+    [EnumMapSameMembers(PlayerItem.PlayerItemType)]
+    [EnumMapUnknownMember(GameItemType.Unknownz)]
+    enum GameItemType {
+        Unknownz = 0,
+        Gold = 1,
+        NameChanger = 7,
+    }
+}
+
+model PlayerItem {
+    [EnumMapSameMembers(GameItem.GameItemType)]
+    [EnumMapUnknownMember(PlayerItemType.UnknownXX)]
+    enum PlayerItemType {
+        UnknownXX = 99,
+        NameChanger = 1,
+    }
+}
+```
+
+Members match by their original CCL names, exactly and case-sensitively. Generated prefixes and naming styles do not affect matching. Here, `GameItemType.NameChanger` converts from `7` to `1`; `Gold`, `Unknownz`, and undeclared input values convert to the destination's `UnknownXX` (`99`). The reverse conversion maps `NameChanger` from `1` to `7`, with `Unknownz` (`0`) as its fallback.
+
+Conversions return only the destination enum value. They use switches or the language's equivalent, without reflection or runtime name lookup. Enum members, numeric values, and serialization stay unchanged.
+
+Repeat `EnumMapSameMembers` to target several enums. Source members sharing a numeric value are allowed only when they map to the same destination value, including fallback results. Conflicting aliases or fallback declarations produce compilation errors.
+
+## `EnumMapUseShortMethodName`
+
+Accepts `true` or `false`; defaults to `false`. Enable it globally once, or apply it to an enum, its owning model, a file, or a namespace. Local settings override broader settings, and language selectors work as usual.
+
+```txt
+#[EnumMapUseShortMethodName(true)]
+
+// Keep long conversion names for this source enum.
+[EnumMapUseShortMethodName(false)]
+[EnumMapSameMembers(PlayerItem.PlayerItemType)]
+enum ShopItemType { NameChanger = 12 }
+```
+
+Short names use the destination's local CCL enum name, without its model, namespace, or `EnumTypeNamePrefix`. The `GameItem` / `PlayerItem` example generates these APIs:
+
+| Language | Conversion with short names |
+| --- | --- |
+| Go | `value.ToPlayerItemType()` |
+| GDScript | `GameItem.to_player_item_type(value)` |
+| C# | `GameItem.GameItemTypeMappings.ToPlayerItemType(value)` |
+| JavaScript / TypeScript | `GameItem.GameItemTypeMappings.toPlayerItemType(value)` |
+| Python | `GameItem.GameItemType.to_player_item_type(value)` |
+| Rust | `value.to_player_item_type()` |
+
+Duplicate conversion method names in the same generated scope are rejected. For example, two destinations named `Kind` cannot both use `to_kind` on the same source. GDScript also shares a model's method scope across its nested enums. Use `EnumMapUseShortMethodName(false)` on an affected source enum to keep its longer names.
+
+Rust enums cannot hold undeclared numeric values. Use `GameItemGameItemType::map_raw_to_player_item_type(raw)` to map raw integers with the same fallback behavior. Python's static conversion methods and GDScript's conversion functions also accept integer inputs. Rust represents numeric aliases as associated constants.
+
+`EnumMapSameMembers`, `EnumMapUnknownMember`, and the naming option accept language selectors. A destination's fallback must apply to every language selected by its incoming conversions.

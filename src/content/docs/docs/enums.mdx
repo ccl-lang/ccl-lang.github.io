@@ -102,6 +102,10 @@ model UserInfo {
 
 Nested enum names are scoped to the owning model. This helps keep model-specific choices close to the data that uses them.
 
+## Converting between enums
+
+Use [enum mapping attributes](/docs/attributes/enums/#enum-mapping) to generate conversions by member name, with a destination-specific fallback for unmatched values.
+
 ## Validation rules
 
 - Enum base types must be integer types.
