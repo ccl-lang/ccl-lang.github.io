@@ -57,6 +57,20 @@ Requests single-file output for generators that support it.
 
 Currently used by JavaScript, TypeScript, and C#.
 
+## `GenerateModelIds`
+
+Controls model ID constants and accessor methods for all models, including imported models.
+
+```txt
+#[GenerateModelIds(false)]
+```
+
+Requires exactly one boolean: `false` omits both constants and accessors; `true` enables them and is the default.
+
+Only global scope (`#[...]` or `#global:[...]`) is allowed. Model IDs cannot be enabled or disabled for individual files, namespaces, or models.
+
+Supported by Go, C#, GDScript, JavaScript, TypeScript, and Python.
+
 ## `AddCloneMethods`
 
 Requests generated clone helpers for supported targets.
