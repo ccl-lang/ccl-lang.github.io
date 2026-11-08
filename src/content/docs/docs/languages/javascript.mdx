@@ -9,8 +9,14 @@ description: CCL generator status and current support for JavaScript.
 
 ## Current support
 
-- Generator status: full codegen supported.
+- JSON and ordered binary serialization, including nested models and arrays.
+- ES modules by default; `#[$js:JavaScriptModuleFormat("commonjs")]` emits CommonJS.
 
 ## Notes
 
-JavaScript is a stable CCL target for current codegen workflows.
+Enable binary methods with `#[SerializationType("binary")]`. `serializeBinary()`
+returns a `Uint8Array`; `Model.deserializeBinary(bytes)` returns the decoded model
+or `null` for invalid input in the default strict mode. Both byte orders are supported.
+Binary `int64`, `uint64`, and nanosecond `datetime` values decode as `bigint` to
+preserve precision. The runtime needs `DataView`, `TextEncoder`, and `TextDecoder`;
+Node's `Buffer` and external runtime packages are not required.

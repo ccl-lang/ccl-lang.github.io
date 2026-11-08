@@ -30,6 +30,28 @@ The group value must be a non-empty string when used and may contain only letter
 The Go generator currently uses this to route model artifacts into grouped files such as `types_positions.go` and `methods_positions.go`.
 Go enum member constants also follow the enum output file group, but generated `ModelId*` constants are an exception: they always go into `constants.go` because they are internal CCL metadata.
 
+## `PartialClassName`
+
+GDScript with `UseWGodot(true)` can group nested models beneath one shared class:
+
+```txt
+#[$gd:UseWGodot(true)]
+#[$gd:PartialClassName("Packets")]
+#[SerializationType("protobuf")]
+
+[$gd:OutputFileGroup("messages_001")]
+model Greeting {
+    [PbFieldId(1)]
+    Text: string;
+}
+```
+
+Each output group becomes one `.gd` file declaring `@partial class_name Packets`.
+Access the example as `Packets.Greeting`. Every model and top-level enum needs
+an `OutputFileGroup`; assign it per model or with a file-scoped attribute.
+Top-level enums also live directly inside `Packets`, without an extra `Enum` suffix.
+The generator removes obsolete CCL-generated `.gd` files from this output directory.
+
 ## `FileNamingStyle`
 
 Controls generated per-model filenames where the target generator supports per-model files.
