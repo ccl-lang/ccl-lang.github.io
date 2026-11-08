@@ -61,13 +61,13 @@ The attribute can be global or model-local, and can be language-scoped.
 
 ## `UseWGodot`
 
-Selects WGodot's native serialization classes instead of emitting GDScript codec bodies.
+Selects WGodot's native serialization interfaces instead of emitting GDScript codec bodies.
 
 ```txt
 #[$gd:UseWGodot(true)]
 ```
 
-Models inherit `ProtobufSerializable`, `BinarySerializable`, or `JsonSerializable`, according to their serialization type. Fields carry wire IDs, encodings, ordering, and JSON names as annotations. The editor uses reflection; gd2cpp generates typed C++ codecs for native builds. The `serialize_binary`, `deserialize_binary`, and JSON APIs remain available through the engine. Referenced models must also use WGodot.
+Models implement only the requested interfaces: `ProtobufSerializable`, `BinarySerializable`, and/or `JsonSerializable`. Fields carry wire IDs, encodings, ordering, and JSON names as annotations. The editor uses reflection; gd2cpp generates typed C++ codecs for native builds. Protobuf uses `serialize_protobuf`/`deserialize_protobuf`; CCL binary uses `serialize_binary`/`deserialize_binary`; JSON uses `serialize_json`/`deserialize_json` and the dictionary variants. These codecs can coexist on one model. Referenced models must also use WGodot and implement the corresponding codec.
 
 Regenerate existing WGodot schemas after updating the engine. Ordinary Godot output retains its GDScript codec methods.
 
